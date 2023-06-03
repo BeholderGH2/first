@@ -1,0 +1,93 @@
+abstract class a {
+    private double numberA;
+    private double numberB;
+
+    public double getNumberA() {
+        return numberA;
+    }
+
+    public void setNumberA(double numberA) {
+        this.numberA = numberA;
+    }
+
+    public double getNumberB() {
+        return numberB;
+    }
+
+    public void setNumberB(double numberB) {
+        this.numberB = numberB;
+    }
+
+    public abstract double getResult();
+}
+
+class AddOperation extends a {
+    @Override
+    public double getResult() {
+        return getNumberA() + getNumberB();
+    }
+}
+
+class SubtractOperation extends a {
+    @Override
+    public double getResult() {
+        return getNumberA() - getNumberB();
+    }
+}
+
+class MultiplyOperation extends a {
+    @Override
+    public double getResult(){
+        return getNumberA() * getNumberB();
+    }
+}
+
+class DivideOperation  extends a {
+    @Override
+    public double getResult() {
+        if (getNumberB() == 0) {
+            throw new IllegalArgumentException("除数不能为0");
+        }
+        return getNumberA() / getNumberB();
+    }
+}
+
+class OperationFactory {
+    public static 软件工程.a createOperation(String operator) {
+        return switch (operator) {
+            case "+" -> new AddOperation();
+            case "-" -> new SubtractOperation();
+            case "*" -> new MultiplyOperation();
+            case "/" -> new DivideOperation();
+            default -> throw new IllegalArgumentException("不支持的运算符：" + operator);
+        };
+    }
+}
+
+public class jishuanji {
+    public static void main(String[] args) {
+        double a=5.0,b=10.0;
+
+        软件工程.a op = OperationFactory.createOperation("+");
+        op.setNumberA(a);
+        op.setNumberB(b);
+        System.out.println(a + " + " + b + " = " + op.getResult());
+
+        op = OperationFactory.createOperation("-");
+        op.setNumberA(a);
+        op.setNumberB(b);
+        System.out.println(a + " - " + b + " = " + op.getResult());
+
+        op = OperationFactory.createOperation("*");
+        op.setNumberA(a);
+        op.setNumberB(b);
+        System.out.println(a + " * " + b + " = " + op.getResult());
+
+        op = OperationFactory.createOperation("/");
+        op.setNumberA(a);
+        op.setNumberB(b);
+        System.out.println(a + " / " + b + " = " + op.getResult());
+    }
+}
+
+
